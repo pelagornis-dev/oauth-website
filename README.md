@@ -1,6 +1,7 @@
-# Github Template
-Github Repository Template for Pelagornis.
+# Oauth Website
+Pelagornis Oauth Website
+
 
 
 ## License
-**github-template** is under MIT license. See the [LICENSE](LICENSE) file for more info.
+**oauth-website** is under MIT license. See the [LICENSE](LICENSE) file for more info.
