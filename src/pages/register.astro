@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="w-full max-w-sm mx-auto">
+    <h1 class="text-2xl font-bold text-black text-center mb-2">Sign up</h1>
+    <p class="text-center text-gray-500 mb-8 text-sm">Pelagornis OAuth에 가입하세요</p>
+    <form id="register-form" class="space-y-5" autocomplete="off">
+      <div id="register-email-step">
+        <input
+          type="email"
+          id="register-email"
+          placeholder="이메일"
+          required
+          autocomplete="username"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+        />
+      </div>
+      <div id="register-info-step" class="hidden space-y-4">
+        <input
+          type="text"
+          id="register-firstname"
+          placeholder="이름"
+          required
+          autocomplete="given-name"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+        />
+        <input
+          type="text"
+          id="register-lastname"
+          placeholder="성"
+          required
+          autocomplete="family-name"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+        />
+        <input
+          type="password"
+          id="register-password"
+          placeholder="비밀번호"
+          required
+          autocomplete="new-password"
+          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+        />
+      </div>
+      <button
+        id="register-btn"
+        type="submit"
+        class="w-full py-3 rounded-xl bg-black text-white font-semibold hover:bg-neutral-900 transition disabled:opacity-60"
+      >
+        계속하기
+      </button>
+      <div id="register-error" class="text-red-500 text-sm mt-2 hidden"></div>
+    </form>
+    <div class="flex justify-center mt-8 text-sm">
+      <a href="/login" class="text-black hover:underline">이미 계정이 있으신가요?</a>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('register-form');
+      const emailStep = document.getElementById('register-email-step');
+      const infoStep = document.getElementById('register-info-step');
+      const emailInput = document.getElementById('register-email');
+      const firstName = document.getElementById('register-firstname');
+      const lastName = document.getElementById('register-lastname');
+      const password = document.getElementById('register-password');
+      const btn = document.getElementById('register-btn');
+      const errorDiv = document.getElementById('register-error');
+      let step = 1;
+      let email = '';
+
+      function showError(msg) {
+        if (errorDiv) {
+          errorDiv.textContent = msg;
+          errorDiv.classList.remove('hidden');
+        }
+      }
+      function clearError() {
+        if (errorDiv) errorDiv.classList.add('hidden');
+      }
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearError();
+        if (step === 1) {
+          if (!emailInput || !infoStep || !btn) return;
+          const emailVal = emailInput instanceof HTMLInputElement ? emailInput.value.trim() : '';
+          email = emailVal;
+          if (email && email.includes('@')) {
+            emailStep?.classList.add('hidden');
+            infoStep.classList.remove('hidden');
+            btn.textContent = '가입하기';
+            if (firstName instanceof HTMLInputElement) firstName.focus();
+            step = 2;
+          } else {
+            showError('올바른 이메일을 입력하세요.');
+            emailInput.classList.add('border-red-500');
+          }
+        } else if (step === 2) {
+          if (!firstName || !lastName || !password || !btn) return;
+          const f = firstName instanceof HTMLInputElement ? firstName.value.trim() : '';
+          const l = lastName instanceof HTMLInputElement ? lastName.value.trim() : '';
+          const p = password instanceof HTMLInputElement ? password.value : '';
+          if (f && l && p) {
+            btn instanceof HTMLButtonElement && (btn.disabled = true);
+            btn.textContent = '가입 중...';
+            try {
+              const response = await fetch('http://localhost:3000/api/v1/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, firstName: f, lastName: l, password: p }),
+              });
+              const data = await response.json();
+              if (data.success) {
+                window.location.href = '/login';
+              } else {
+                showError(data.error?.message || 'Registration failed');
+                password.classList.add('border-red-500');
+                btn.textContent = '가입하기';
+                btn instanceof HTMLButtonElement && (btn.disabled = false);
+              }
+            } catch {
+              showError('Network error');
+              btn.textContent = '가입하기';
+              btn instanceof HTMLButtonElement && (btn.disabled = false);
+            }
+          } else {
+            showError('모든 항목을 입력하세요.');
+            if (!f) firstName.classList.add('border-red-500');
+            if (!l) lastName.classList.add('border-red-500');
+            if (!p) password.classList.add('border-red-500');
+          }
+        }
+      });
+
+      [emailInput, firstName, lastName, password].forEach((el) => {
+        el?.addEventListener('input', () => {
+          el.classList.remove('border-red-500');
+          clearError();
+        });
+      });
+    });
+  </script>
+</Layout>

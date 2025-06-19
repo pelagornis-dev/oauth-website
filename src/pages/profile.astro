@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="w-full bg-white rounded-2xl shadow-lg p-8 mt-8 border border-gray-100">
+    <div class="flex flex-col items-center mb-6">
+      <span class="text-3xl font-bold text-black mb-2">Pelagornis</span>
+      <h1 class="text-xl font-bold text-black">내 프로필</h1>
+    </div>
+    <div id="profile-info" class="space-y-2 text-black mb-6">
+      <!-- JS로 사용자 정보 fetch 후 표시 -->
+    </div>
+    <button
+      id="logout-btn"
+      class="w-full py-3 rounded-lg bg-black text-white font-semibold hover:bg-gray-900 transition mt-4"
+      >로그아웃</button
+    >
+  </div>
+  <script type="module">
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      window.location.href = '/login';
+    } else {
+      fetch('http://localhost:3000/api/v1/users/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            document.getElementById('profile-info').innerHTML = `
+            <div>이메일: ${data.data.user.email}</div>
+            <div>이름: ${data.data.user.firstName} ${data.data.user.lastName}</div>
+            <div>이메일 인증: ${data.data.user.isEmailVerified ? '완료' : '미완료'}</div>
+          `;
+          } else {
+            window.location.href = '/login';
+          }
+        });
+    }
+    document.getElementById('logout-btn').onclick = () => {
+      localStorage.removeItem('accessToken');
+      window.location.href = '/login';
+    };
+  </script>
+</Layout>
