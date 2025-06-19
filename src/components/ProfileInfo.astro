@@ -1,0 +1,23 @@
+---
+const { email, name, isEmailVerified } = Astro.props;
+---
+
+<div class="space-y-5">
+  <div>
+    <div class="text-xs text-gray-400 mb-1">이메일</div>
+    <div class="text-base text-black font-medium">{email}</div>
+  </div>
+  <div>
+    <div class="text-xs text-gray-400 mb-1">이름</div>
+    <div class="text-base text-black font-medium">{name}</div>
+  </div>
+  <div>
+    <div class="text-xs text-gray-400 mb-1">이메일 인증</div>
+    <span
+      class={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${isEmailVerified ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}
+    >
+      {isEmailVerified ? '완료' : '미완료'}
+    </span>
+  </div>
+</div>
+

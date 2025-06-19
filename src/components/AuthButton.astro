@@ -1,0 +1,12 @@
+---
+const { type = 'button', text, disabled = false, onClick, className = '' } = Astro.props;
+---
+
+<button
+  type={type}
+  disabled={disabled}
+  onclick={onClick}
+  class={`w-full py-3 rounded-xl bg-black text-white font-semibold hover:bg-neutral-900 transition disabled:opacity-60 ${className}`}
+>
+  {text}
+</button>

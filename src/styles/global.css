@@ -1,4 +1,77 @@
 @import 'tailwindcss';
 
+.btn {
+  width: 100%;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0.75rem;
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  transition: background 0.2s, opacity 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: none;
+}
+.btn:hover:not(:disabled) {
+  background: #171717;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
+.btn-outline {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #000;
+  font-weight: 600;
+  transition: background 0.2s;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+.btn-outline:hover:not(:disabled) {
+  background: #f5f5f5;
+}
 
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #111;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border 0.2s, background 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.input:focus {
+  border-color: #000;
+  background: #fff;
+  box-shadow: 0 0 0 2px #0001;
+}
+.input::placeholder {
+  color: #9ca3af;
+  opacity: 1;
+}
+
+.card {
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid #f3f4f6;
+  padding: 2rem;
+  box-shadow: 0 2px 8px 0 #0001;
+}
+
+.card-container {
+  width: 100%;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2rem;
+}

@@ -1,61 +1,55 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import CardContainer from '@components/CardContainer.astro';
+import AuthTitle from '@components/AuthTitle.astro';
+import AuthInput from '@components/AuthInput.astro';
+import AuthButton from '@components/AuthButton.astro';
+import AuthError from '@components/AuthError.astro';
+import AuthLinks from '@components/AuthLinks.astro';
+import SocialLoginButton from '@components/SocialLoginButton.astro';
 ---
 
 <Layout>
-  <div class="w-full max-w-sm mx-auto">
-    <h1 class="text-3xl font-bold text-black text-center mb-2">Sign up</h1>
-    <p class="text-center text-gray-500 mb-8 text-sm">Pelagornis OAuth에 가입하세요</p>
+  <CardContainer>
+    <AuthTitle title="Sign up" description="Pelagornis OAuth에 가입하세요" />
     <form id="register-form" class="space-y-5" autocomplete="off">
       <div id="register-email-step">
-        <input
-          type="email"
-          id="register-email"
-          placeholder="이메일"
-          required
-          autocomplete="username"
-          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
-        />
+        <AuthInput type="email" id="register-email" placeholder="이메일" autoComplete="username" />
       </div>
       <div id="register-info-step" class="hidden space-y-4">
-        <input
+        <AuthInput
           type="text"
           id="register-firstname"
           placeholder="이름"
-          required
-          autocomplete="given-name"
-          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+          autoComplete="given-name"
         />
-        <input
-          type="text"
-          id="register-lastname"
-          placeholder="성"
-          required
-          autocomplete="family-name"
-          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
-        />
-        <input
+        <AuthInput type="text" id="register-lastname" placeholder="성" autoComplete="family-name" />
+        <AuthInput
           type="password"
           id="register-password"
           placeholder="비밀번호"
-          required
-          autocomplete="new-password"
-          class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400"
+          autoComplete="new-password"
         />
       </div>
-      <button
-        id="register-btn"
-        type="submit"
-        class="w-full py-3 rounded-xl bg-black text-white font-semibold hover:bg-neutral-900 transition disabled:opacity-60"
-      >
-        계속하기
-      </button>
-      <div id="register-error" class="text-red-500 text-sm mt-2 hidden"></div>
+      <AuthButton id="register-btn" type="submit" text="계속하기" />
+      <AuthError id="register-error" />
     </form>
-    <div class="flex justify-center mt-8 text-sm">
-      <a href="/login" class="text-black hover:underline">이미 계정이 있으신가요?</a>
+    <AuthLinks
+      links={[
+        { label: '이미 계정이 있으신가요?', href: '/login', class: 'text-black hover:underline' },
+      ]}
+    />
+    <div class="my-8 flex items-center">
+      <div class="flex-grow h-px bg-gray-200"></div>
+      <span class="mx-3 text-gray-400 text-xs">또는</span>
+      <div class="flex-grow h-px bg-gray-200"></div>
     </div>
-  </div>
+    <SocialLoginButton
+      provider="google"
+      href="http://localhost:3000/api/v1/auth/google"
+      text="Google로 계속하기"
+    />
+  </CardContainer>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('register-form');

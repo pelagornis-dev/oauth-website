@@ -1,0 +1,23 @@
+---
+const {
+  type = 'text',
+  id,
+  name,
+  placeholder,
+  autoComplete,
+  value,
+  onInput,
+  className = '',
+} = Astro.props;
+---
+
+<input
+  type={type}
+  id={id}
+  name={name}
+  placeholder={placeholder}
+  autocomplete={autoComplete}
+  value={value}
+  oninput={onInput}
+  class={`w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:border-black focus:bg-white focus:ring-2 focus:ring-black focus:outline-none transition text-black placeholder-gray-400 ${className}`}
+/>
