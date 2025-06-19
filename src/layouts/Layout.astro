@@ -2,7 +2,7 @@
 import '@styles/global.css';
 
 import { getLangFromUrl } from '@i18n/utils';
-import Navbar from '../components/Navbar.astro';
+import Navigation from '@components/Navigation.astro';
 
 const lang = getLangFromUrl(Astro.url);
 ---
@@ -14,7 +14,7 @@ const lang = getLangFromUrl(Astro.url);
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body class="bg-white min-h-screen">
-    <Navbar />
+    <Navigation />
     <main class="flex justify-center items-start md:items-center min-h-[70vh] px-2">
       <slot />
     </main>

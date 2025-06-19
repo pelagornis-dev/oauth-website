@@ -3,12 +3,12 @@ import ko from './locales/ko.json';
 
 export const ui = {
     en,
-    ko,
+    ko
 };
 
 export const languages = {
     en: 'English',
-    ko: 'Korean',
+    ko: 'Korean'
 };
 
 export const defaultLang = 'en';
